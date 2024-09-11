@@ -17,6 +17,9 @@ public class LinkedList {
     public LinkedList() {
         
     }
+    public LinkedList(Node head) {
+        this.head = head;
+    }
 
     /** 
      * Add a new node to the linked list 
@@ -25,7 +28,15 @@ public class LinkedList {
      * @return void
      */
     public void add(int value) {
-
+    	if (this.head == null) {
+    		this.head = new Node(value);
+    		return;
+    	}
+    	Node curr = this.head;
+    	while (curr.next != null) {
+    		curr = curr.next;
+    	}
+    	curr.next = new Node(value);
     }
 
     /**
@@ -35,6 +46,17 @@ public class LinkedList {
      * @return void
      */
     public void remove(int value) {
+    	Node dummy = new Node(0);
+    	dummy.next = this.head;
+    	Node curr = dummy;
+    	while (curr.next != null) {
+    		if (curr.next.value == value) {
+    			curr.next = curr.next.next;
+    			this.head = dummy.next;
+    			return;
+    		}
+    		curr = curr.next;
+    	}
 
     }
 
@@ -44,7 +66,9 @@ public class LinkedList {
      * @return String
      */
     private String traverse(Node current){
-
+    	if (current == null)
+    		return "";
+    	return Integer.toString(current.value) + " " + traverse(current.next);
     }
 
     /**
@@ -52,11 +76,14 @@ public class LinkedList {
      * @return String
      */
     public String traverse(){
-        
+        return traverse(this.head);
     }
 
     public String reverse(){
-        
+        if (this.head == null) {
+        	return "";
+        }
+        return reverse(this.head);
     }
 
     /**
@@ -65,7 +92,9 @@ public class LinkedList {
      * @return String
      */
     private String reverse(Node current){
-        
+    	if (current.next == null)
+    		return Integer.toString(current.value);
+    	return traverse(current.next) + " " + Integer.toString(current.value);
     }
     /**
      * Merges two sorted linked list and returns the 
@@ -75,7 +104,27 @@ public class LinkedList {
      * @return LinkedLists
      */
     public static LinkedList merge(LinkedList list1, LinkedList list2){
-       
+       Node dummy = new Node(0);
+       Node h1 = list1.head;
+       Node h2 = list2.head;
+       while (h1 != null && h2 != null) {
+    	   if (h1.value < h2.value) {
+    		   dummy.next = h1;
+    		   h1 = h1.next;
+    	   }
+    	   else {
+    		   dummy.next = h2;
+    		   h2 = h2.next;
+    	   }
+    	   dummy = dummy.next;
+       }
+       if (h1 == null) {
+    	   dummy.next = h2;
+       }
+       else {
+    	   dummy.next = h1;
+       }
+       return new LinkedList(dummy.next);
     }
 
 
