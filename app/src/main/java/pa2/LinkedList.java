@@ -1,5 +1,7 @@
 package pa2;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 /**
  * A sorted singly linked list of integers
  */
@@ -32,8 +34,20 @@ public class LinkedList {
     		this.head = new Node(value);
     		return;
     	}
+    	if (this.head.value >= value) {
+    		Node new_head = new Node(value);
+    		new_head.next = this.head;
+    		this.head = new_head;
+    		return;
+    	}
     	Node curr = this.head;
     	while (curr.next != null) {
+    		if (curr.next.value >= value) {
+    			Node new_node = new Node(value);
+    			new_node.next = curr.next;
+    			curr.next = new_node;
+    			return;
+    		}
     		curr = curr.next;
     	}
     	curr.next = new Node(value);
@@ -94,7 +108,7 @@ public class LinkedList {
     private String reverse(Node current){
     	if (current.next == null)
     		return Integer.toString(current.value);
-    	return traverse(current.next) + " " + Integer.toString(current.value);
+    	return reverse(current.next) + " " + Integer.toString(current.value);
     }
     /**
      * Merges two sorted linked list and returns the 
@@ -105,9 +119,14 @@ public class LinkedList {
      */
     public static LinkedList merge(LinkedList list1, LinkedList list2){
        Node dummy = new Node(0);
+       Node res = dummy;
        Node h1 = list1.head;
        Node h2 = list2.head;
        while (h1 != null && h2 != null) {
+    	   if (h1 == h2) {
+    		   System.out.println("some nodes were common");
+    		   return null;
+    	   }
     	   if (h1.value < h2.value) {
     		   dummy.next = h1;
     		   h1 = h1.next;
@@ -124,7 +143,7 @@ public class LinkedList {
        else {
     	   dummy.next = h1;
        }
-       return new LinkedList(dummy.next);
+       return new LinkedList(res.next);
     }
 
 
@@ -136,6 +155,10 @@ public class LinkedList {
         list.add(4);
         System.out.println(list.traverse());
         list.remove(3);
-        System.out.println(list.traverse());
+        System.out.println(list.traverse());    
+        
     }
 }
+
+
+
