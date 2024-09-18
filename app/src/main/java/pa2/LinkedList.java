@@ -1,6 +1,6 @@
 package pa2;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+//import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * A sorted singly linked list of integers
